@@ -9,5 +9,15 @@ namespace StudyPart.Windows.Data
         public string DepartmentName { get; set; }
 
         public List<Subject> Subjects { get; set; }
+
+        public static Subject Parse(string xml)
+        {
+            return null;//TODO:Implement
+        }
+
+        public override string ToString()
+        {
+            return null;//TODO:Implement
+        }
     }
 }
