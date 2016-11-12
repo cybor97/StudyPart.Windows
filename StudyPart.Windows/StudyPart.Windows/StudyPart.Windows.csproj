@@ -61,6 +61,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonVariables.cs" />
+    <Compile Include="Data\UserAccount.cs" />
     <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
