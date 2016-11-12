@@ -2,7 +2,7 @@
 
 namespace StudyPart.Windows.Data
 {
-    class Student
+    public class Student
     {
         public long ID { get; set; }
 

@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace StudyPart.Windows.Data
 {
-    class Mark
+    public class Mark
     {
         public long ID { get; set; }
 
