@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 
@@ -8,11 +9,7 @@ namespace StudyPart.Windows
     {
         #region XML
         public delegate void XmlWriterCreatedDelegate(ref XmlWriter writer);
-        /// <summary>
-        /// XML writing simplifier
-        /// </summary>
-        /// <param name="onWriterCreated">Parameter should be a function with parameter: (ref XmlWriter writer)</param>
-        /// <returns>XML string</returns>
+
         public static string WriteXMLString(XmlWriterCreatedDelegate onWriterCreated)
         {
             var stream = new MemoryStream();
@@ -22,15 +19,26 @@ namespace StudyPart.Windows
             return Encoding.UTF8.GetString(stream.GetBuffer()).Replace('\0', ' ');
         }
         public delegate void XmlReaderCreatedDelegate(XmlReader reader);
-        /// <summary>
-        /// XML reading simplifier
-        /// </summary>
-        /// <param name="xml">XML string</param>
-        /// <param name="onReaderCreated">Parameter should be a function with parameter: (XmlReader reader)</param>
+
         public static void ReadXMLString(string xml, XmlReaderCreatedDelegate onReaderCreated)
         {
             onReaderCreated?.Invoke(XmlReader.Create(new MemoryStream(Encoding.UTF8.GetBytes(xml.Replace('\0', ' ')))));
         }
+        #endregion
+        #region Encryption
+
+        public static string GetHash(string source, string key)
+        {
+            SHA1 sha1 = SHA1.Create();
+            sha1.Initialize();
+            byte[] bytes = sha1.ComputeHash(Encoding.UTF8.GetBytes(source));
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
+            for (int i = 0; i < bytes.Length; i++)
+                foreach (byte currentKeyBlock in keyBytes)
+                    bytes[i] ^= currentKeyBlock;
+            return Encoding.UTF8.GetString(bytes);
+        }
+
         #endregion
     }
 }
