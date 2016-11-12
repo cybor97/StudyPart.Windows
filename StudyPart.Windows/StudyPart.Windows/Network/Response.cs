@@ -1,12 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml;
+using StudyPart.Windows.Data;
 
 namespace StudyPart.Windows.Network
 {
-    class Response
+    public class Response
     {
+        public List<object> Data { get; set; }
+
+        public Response()
+        {
+            Data = new List<object>();
+        }
+
+        public Response(string str) : this(new List<object>(new[] { str }))
+        {
+
+        }
+
+        public Response(List<string> data) : this(data.ConvertAll(c => (object)c))
+        {
+
+        }
+
+        public Response(List<Department> data) : this(data.ConvertAll(c => (object)c))
+        {
+
+        }
+
+        public Response(List<Mark> data) : this(data.ConvertAll(c => (object)c))
+        {
+
+        }
+
+        public Response(List<Student> data) : this(data.ConvertAll(c => (object)c))
+        {
+
+        }
+
+        public Response(List<Subject> data) : this(data.ConvertAll(c => (object)c))
+        {
+
+        }
+
+        Response(List<object> data)
+        {
+            Data = data;
+        }
+
+        public override string ToString()
+        {
+            return Utils.WriteXMLString((ref XmlWriter writer) =>
+            {
+                writer.WriteStartElement(nameof(Response));
+                foreach (var current in Data)
+                    if (current is Department || current is Mark || current is Student || current is Subject)
+                        writer.WriteRaw(current.ToString());
+                    else if (current is string)
+                        writer.WriteElementString(nameof(String), current.ToString());
+                writer.WriteEndElement();
+            });
+        }
     }
 }
