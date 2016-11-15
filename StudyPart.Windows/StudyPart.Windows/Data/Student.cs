@@ -17,10 +17,6 @@ namespace StudyPart.Windows.Data
             return null;//TODO:Implement
         }
 
-        public string ToXML()
-        {
-            return null;
-        }
         public override string ToString()
         {
             return null;//TODO:Implement

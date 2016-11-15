@@ -10,5 +10,15 @@ namespace StudyPart.Windows.Data
     {
         public string DepartmentName { get; set; }
         public string SpecialtyName { get; set; }
+
+        public static Group Parse()
+        {
+
+        }
+
+        public override string ToString()
+        {
+            return base.ToString();
+        }
     }
 }
