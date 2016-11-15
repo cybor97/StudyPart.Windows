@@ -57,9 +57,11 @@ namespace StudyPart.Windows.Data
                              result.TestDate = DateTime.Parse(reader.GetAttribute(nameof(TestDate)));
                              result.MarkValue = int.Parse(reader.GetAttribute(nameof(MarkValue)));
                              result.YearHalf = int.Parse(reader.GetAttribute(nameof(YearHalf)));
+                             reader.Read();
                          }
                          else if (reader.IsStartElement(nameof(Subject)))
                              result.Subject = Subject.Parse(reader.ReadOuterXml());
+                         else reader.Read();
                  });
                 return result;
             }
