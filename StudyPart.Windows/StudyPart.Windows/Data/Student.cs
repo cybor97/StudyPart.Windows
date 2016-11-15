@@ -8,11 +8,7 @@ namespace StudyPart.Windows.Data
 
         public string FullName { get; set; }
 
-        public Department Department { get; set; }
-
-        public string GroupName { get; set; }
-
-        public string Speciality { get; set; }
+        public Group Group { get; set; }
 
         public List<Mark> Marks { get; set; }
 
@@ -21,6 +17,10 @@ namespace StudyPart.Windows.Data
             return null;//TODO:Implement
         }
 
+        public string ToXML()
+        {
+            return null;
+        }
         public override string ToString()
         {
             return null;//TODO:Implement

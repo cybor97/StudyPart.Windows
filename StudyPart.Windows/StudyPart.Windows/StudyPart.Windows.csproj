@@ -62,13 +62,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommonVariables.cs" />
+    <Compile Include="Data\Group.cs" />
     <Compile Include="Data\UserAccount.cs" />
     <Compile Include="UI\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils.cs" />
     <Compile Include="Data\DBHolder.cs" />
-    <Compile Include="Data\Department.cs" />
     <Compile Include="Data\Mark.cs" />
     <Compile Include="Data\Student.cs" />
     <Compile Include="Data\Subject.cs" />
