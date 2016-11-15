@@ -24,7 +24,12 @@ namespace StudyPart.Windows.Network
 
         }
 
-        public Response(List<Department> data) : this(data.ConvertAll(c => (object)c))
+        public Response(List<Group> data) : this(data.ConvertAll(c => (object)c))
+        {
+
+        }
+
+        public Response(List<UserAccount> data) : this(data.ConvertAll(c => (object)c))
         {
 
         }
@@ -55,7 +60,7 @@ namespace StudyPart.Windows.Network
             {
                 writer.WriteStartElement(nameof(Response));
                 foreach (var current in Data)
-                    if (current is Department || current is Mark || current is Student || current is Subject)
+                    if (current is Group || current is Mark || current is Student || current is Subject || current is UserAccount)
                         writer.WriteRaw(current.ToString());
                     else if (current is string)
                         writer.WriteElementString(nameof(String), current.ToString());
