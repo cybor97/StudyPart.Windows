@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-namespace StudyPart.Windows.Data
+namespace StudyPart.Server.Data
 {
     public class Mark
     {

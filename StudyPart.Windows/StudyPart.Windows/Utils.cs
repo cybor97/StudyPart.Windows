@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 
-namespace StudyPart.Windows
+namespace StudyPart.Server
 {
     public static partial class Utils
     {

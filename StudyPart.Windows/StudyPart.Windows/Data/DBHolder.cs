@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using System.Data.SQLite;
 using System.IO;
-using static StudyPart.Windows.CommonVariables;
+using static StudyPart.Server.CommonVariables;
 
-namespace StudyPart.Windows.Data
+namespace StudyPart.Server.Data
 {
     public static class DBHolder
     {

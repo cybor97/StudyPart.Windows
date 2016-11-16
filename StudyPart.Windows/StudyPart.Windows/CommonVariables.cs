@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudyPart.Windows
+namespace StudyPart.Server
 {
     class CommonVariables
     {

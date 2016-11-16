@@ -3,7 +3,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace StudyPart.Windows.Network
+namespace StudyPart.Server.Network
 {
     public class Client
     {

@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace StudyPart.Windows.Network
+namespace StudyPart.Server.Network
 {
     public class Request
     {

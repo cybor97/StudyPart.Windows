@@ -1,4 +1,4 @@
-﻿namespace StudyPart.Windows.Network
+﻿namespace StudyPart.Server.Network
 {
     public static class RequestProcessor
     {
@@ -8,9 +8,14 @@
             switch (req.Type)
             {
                 case "TEST": return new Response("OK");
+                case "LOG_IN":
+                    break;
+                case "REGISTER":
+                    break;
                 case "GET":
                     switch (req.In)
                     {
+                       
                     }
                     break;
                 case "ADD":

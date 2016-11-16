@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using StudyPart.Windows.Data;
+using StudyPart.Server.Data;
 
-namespace StudyPart.Windows.Network
+namespace StudyPart.Server.Network
 {
     public class Response
     {
