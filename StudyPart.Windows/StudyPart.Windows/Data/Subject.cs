@@ -47,6 +47,7 @@ namespace StudyPart.Windows.Data
                      while (reader.Read())
                          if (reader.IsStartElement(nameof(Subject)))
                          {
+                             result.ID = long.Parse(reader.GetAttribute(nameof(ID)));
                              result.SubjectName = reader.GetAttribute(nameof(SubjectName));
                              result.TeacherName = reader.GetAttribute(nameof(TeacherName));
                          }
@@ -64,6 +65,7 @@ namespace StudyPart.Windows.Data
             return Utils.WriteXMLString((ref XmlWriter writer) =>
             {
                 writer.WriteStartElement(nameof(Subject));
+                writer.WriteAttributeString(nameof(ID), ID.ToString());
                 writer.WriteAttributeString(nameof(SubjectName), SubjectName);
                 writer.WriteAttributeString(nameof(TeacherName), TeacherName);
                 writer.WriteEndElement();

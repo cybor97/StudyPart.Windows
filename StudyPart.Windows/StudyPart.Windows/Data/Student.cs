@@ -48,6 +48,7 @@ namespace StudyPart.Windows.Data
                     while (!reader.EOF)
                         if (reader.IsStartElement(nameof(Student)))
                         {
+                            result.ID = long.Parse(reader.GetAttribute(nameof(ID)));
                             result.FullName = reader.GetAttribute(nameof(FullName));
                             reader.Read();
                         }
@@ -73,6 +74,7 @@ namespace StudyPart.Windows.Data
             return Utils.WriteXMLString((ref XmlWriter writer) =>
             {
                 writer.WriteStartElement(nameof(Student));
+                writer.WriteAttributeString(nameof(ID), ID.ToString());
                 writer.WriteAttributeString(nameof(FullName), FullName);
                 if (Group != null)
                     writer.WriteRaw(Group.ToString());

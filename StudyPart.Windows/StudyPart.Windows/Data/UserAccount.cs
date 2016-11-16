@@ -4,11 +4,19 @@ namespace StudyPart.Windows.Data
 {
     public class UserAccount
     {
+        public const int PERMISSION_READ = 1,
+            PERMISSION_WRITE = 2,
+            PERMISSION_MANAGE = 4;
+
+        public long ID { get; set; }
+
         public string FullName { get; set; }
 
         public string UserName { get; set; }
 
         public string Key { get; set; }
+
+        public int Permissions { get; set; }
 
         public static bool operator ==(UserAccount v1, UserAccount v2)
         {
@@ -44,6 +52,7 @@ namespace StudyPart.Windows.Data
                     while (reader.Read())
                         if (reader.IsStartElement(nameof(UserAccount)))
                         {
+                            result.ID = long.Parse(reader.GetAttribute(nameof(ID)));
                             result.FullName = reader.GetAttribute(nameof(FullName));
                             result.UserName = reader.GetAttribute(nameof(UserName));
                             result.Key = reader.GetAttribute(nameof(Key));
@@ -62,6 +71,7 @@ namespace StudyPart.Windows.Data
             return Utils.WriteXMLString((ref XmlWriter writer) =>
             {
                 writer.WriteStartElement(nameof(UserAccount));
+                writer.WriteAttributeString(nameof(ID), ID.ToString());
                 writer.WriteAttributeString(nameof(FullName), FullName);
                 writer.WriteAttributeString(nameof(UserName), UserName);
                 writer.WriteAttributeString(nameof(Key), Key);

@@ -7,11 +7,20 @@ namespace StudyPart.Windows.Data
 {
     public static class DBHolder
     {
+        public const string GROUPS = "Groups",
+            MARKS = "Marks",
+            STUDENTS = "Students",
+            SUBJECTS = "Subjects",
+            ACCOUNTS = "Accounts",
+            DEPARTMENTS = "Departments",//TODO:Implement!
+            SPECIALTIES = "Specialties",//TODO:Implement!
+            TEACHERS = "Teachers";//TODO:Implement!
+
         static SQLiteConnection Connection;
         static SQLiteDataAdapter Adapter;
         static DataTable Table;
 
-        public static void Init()
+        public static void Init(bool nativeAutoIncrement)
         {
             if (!Directory.Exists(DataDirectory))
             {
@@ -24,7 +33,6 @@ namespace StudyPart.Windows.Data
                 command.CommandText = "INSERT INTO Test VALUES(-1, 'Test completed!!!')";
                 command.ExecuteNonQuery();
             }
-            
         }
     }
 }

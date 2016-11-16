@@ -4,7 +4,7 @@ namespace StudyPart.Windows.Data
 {
     public class Group
     {
-        public int ID { get; set; }
+        public long ID { get; set; }
         public string DepartmentName { get; set; }
         public string SpecialtyName { get; set; }
 
@@ -43,6 +43,7 @@ namespace StudyPart.Windows.Data
                      while (reader.Read())
                          if (reader.IsStartElement(nameof(Group)))
                          {
+                             result.ID = long.Parse(reader.GetAttribute(nameof(ID)));
                              result.DepartmentName = reader.GetAttribute(nameof(DepartmentName));
                              result.SpecialtyName = reader.GetAttribute(nameof(SpecialtyName));
                          }
@@ -60,6 +61,7 @@ namespace StudyPart.Windows.Data
             return Utils.WriteXMLString((ref XmlWriter writer) =>
             {
                 writer.WriteStartElement(nameof(Group));
+                writer.WriteAttributeString(nameof(ID), ID.ToString());
                 writer.WriteAttributeString(nameof(DepartmentName), DepartmentName);
                 writer.WriteAttributeString(nameof(SpecialtyName), SpecialtyName);
                 writer.WriteEndElement();
