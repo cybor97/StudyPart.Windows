@@ -7,9 +7,9 @@ namespace StudyPart.Server.Data
     {
         public long ID { get; set; }
 
-        public Subject Subject { get; set; }
+        public long SubjectID { get; set; }
 
-        public DateTime TestDate { get; set; }
+        public DateTime TestDate { get; set; }//TODO: Implement universal format provider
 
         public int MarkValue { get; set; }
 
@@ -31,7 +31,7 @@ namespace StudyPart.Server.Data
                 return false;
 
             Mark mark = (Mark)obj;
-            return Subject == mark.Subject &&
+            return SubjectID == mark.SubjectID &&
                 TestDate == mark.TestDate &&
                 MarkValue == mark.MarkValue &&
                 YearHalf == mark.YearHalf;
@@ -59,8 +59,8 @@ namespace StudyPart.Server.Data
                              result.YearHalf = int.Parse(reader.GetAttribute(nameof(YearHalf)));
                              reader.Read();
                          }
-                         else if (reader.IsStartElement(nameof(Subject)))
-                             result.Subject = Subject.Parse(reader.ReadOuterXml());
+                         else if (reader.IsStartElement(nameof(SubjectID)))
+                             result.SubjectID = long.Parse(reader.ReadOuterXml());
                          else reader.Read();
                  });
                 return result;
@@ -81,7 +81,7 @@ namespace StudyPart.Server.Data
                 writer.WriteAttributeString(nameof(MarkValue), MarkValue.ToString());
                 writer.WriteAttributeString(nameof(YearHalf), YearHalf.ToString());
 
-                writer.WriteElementString(nameof(Subject), Subject.ToString());
+                writer.WriteElementString(nameof(SubjectID), SubjectID.ToString());
 
                 writer.WriteEndElement();
             });
