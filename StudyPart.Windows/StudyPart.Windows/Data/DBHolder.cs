@@ -22,17 +22,31 @@ namespace StudyPart.Server.Data
 
         public static void Init(bool nativeAutoIncrement)
         {
-            if (!Directory.Exists(DataDirectory))
+            bool DBExists = File.Exists(DBFileName);
+            if (!DBExists)
             {
-                Directory.CreateDirectory(DataDirectory);
+                if (!Directory.Exists(DataDirectory))
+                    Directory.CreateDirectory(DataDirectory);
+
                 SQLiteConnection.CreateFile(DBFileName);
-                Connection = new SQLiteConnection(string.Format("Data Source={0};Version=3;", DBFileName));
-                Connection.Open();
-                var command = new SQLiteCommand("CREATE TABLE Test(ID INTEGER PRIMARY KEY AUTOINCREMENT, TestName TEXT);", Connection);
-                command.ExecuteNonQuery();
-                command.CommandText = "INSERT INTO Test VALUES(-1, 'Test completed!!!')";
-                command.ExecuteNonQuery();
             }
+            Connection = new SQLiteConnection(string.Format("Data Source={0};Version=3;", DBFileName));
+            Connection.Open();
+            if (!DBExists)
+            {
+                var command = new SQLiteCommand(Connection);
+                command.Execute(string.Format("CREATE TABLE {0}({1} INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                                                "{2} INTEGER, " +
+                                                                "{3} INTEGER);",
+                                    GROUPS,
+                                    nameof(Group.ID), nameof(Group.DepartmentID), nameof(Group.SpecialtyID)));
+            }
+        }
+
+        static void Execute(this SQLiteCommand command, string text)
+        {
+            command.CommandText = text;
+            command.ExecuteNonQuery();
         }
     }
 }
