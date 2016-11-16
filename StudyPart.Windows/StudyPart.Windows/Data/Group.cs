@@ -5,8 +5,8 @@ namespace StudyPart.Server.Data
     public class Group
     {
         public long ID { get; set; }
-        public string DepartmentName { get; set; }
-        public string SpecialtyName { get; set; }
+        public long DepartmentID { get; set; }
+        public long SpecialtyID { get; set; }
 
         public static bool operator ==(Group v1, Group v2)
         {
@@ -24,7 +24,7 @@ namespace StudyPart.Server.Data
                 return false;
 
             Group group = (Group)obj;
-            return DepartmentName == group.DepartmentName && SpecialtyName == group.SpecialtyName;
+            return DepartmentID == group.DepartmentID && SpecialtyID == group.SpecialtyID;
         }
 
         //IDK what to do with it. It's not recommended to use dinamic properties here... So let it be default.
@@ -44,8 +44,8 @@ namespace StudyPart.Server.Data
                          if (reader.IsStartElement(nameof(Group)))
                          {
                              result.ID = long.Parse(reader.GetAttribute(nameof(ID)));
-                             result.DepartmentName = reader.GetAttribute(nameof(DepartmentName));
-                             result.SpecialtyName = reader.GetAttribute(nameof(SpecialtyName));
+                             result.DepartmentID = long.Parse(reader.GetAttribute(nameof(DepartmentID)));
+                             result.SpecialtyID = long.Parse(reader.GetAttribute(nameof(SpecialtyID)));
                          }
                  });
                 return result;
@@ -62,8 +62,8 @@ namespace StudyPart.Server.Data
             {
                 writer.WriteStartElement(nameof(Group));
                 writer.WriteAttributeString(nameof(ID), ID.ToString());
-                writer.WriteAttributeString(nameof(DepartmentName), DepartmentName);
-                writer.WriteAttributeString(nameof(SpecialtyName), SpecialtyName);
+                writer.WriteAttributeString(nameof(DepartmentID), DepartmentID.ToString());
+                writer.WriteAttributeString(nameof(SpecialtyID), SpecialtyID.ToString());
                 writer.WriteEndElement();
             });
         }

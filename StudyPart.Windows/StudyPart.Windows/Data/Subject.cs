@@ -6,9 +6,9 @@ namespace StudyPart.Server.Data
     {
         public long ID { get; set; }
 
-        public string SubjectName { get; set; }
+        public string SubjectID { get; set; }
 
-        public string TeacherName { get; set; }
+        public string TeacherID { get; set; }
 
 
         public static bool operator ==(Subject v1, Subject v2)
@@ -27,7 +27,7 @@ namespace StudyPart.Server.Data
                 return false;
 
             Subject subject = (Subject)obj;
-            return SubjectName == subject.SubjectName && TeacherName == subject.TeacherName;
+            return SubjectID == subject.SubjectID && TeacherID == subject.TeacherID;
         }
 
         //IDK what to do with it. It's not recommended to use dinamic properties here... So let it be default.
@@ -48,8 +48,8 @@ namespace StudyPart.Server.Data
                          if (reader.IsStartElement(nameof(Subject)))
                          {
                              result.ID = long.Parse(reader.GetAttribute(nameof(ID)));
-                             result.SubjectName = reader.GetAttribute(nameof(SubjectName));
-                             result.TeacherName = reader.GetAttribute(nameof(TeacherName));
+                             result.SubjectID = reader.GetAttribute(nameof(SubjectID));
+                             result.TeacherID = reader.GetAttribute(nameof(TeacherID));
                          }
                  });
                 return result;
@@ -66,8 +66,8 @@ namespace StudyPart.Server.Data
             {
                 writer.WriteStartElement(nameof(Subject));
                 writer.WriteAttributeString(nameof(ID), ID.ToString());
-                writer.WriteAttributeString(nameof(SubjectName), SubjectName);
-                writer.WriteAttributeString(nameof(TeacherName), TeacherName);
+                writer.WriteAttributeString(nameof(SubjectID), SubjectID);
+                writer.WriteAttributeString(nameof(TeacherID), TeacherID);
                 writer.WriteEndElement();
             });
         }
