@@ -20,7 +20,7 @@ namespace StudyPart.Server.Data
         static SQLiteDataAdapter Adapter;
         static DataTable Table;
 
-        public static void Init(bool nativeAutoIncrement)
+        public static void Init(bool nativeAutoIncrement=false)
         {
             bool DBExists = File.Exists(DBFileName);
             if (!DBExists)
