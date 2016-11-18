@@ -1,0 +1,146 @@
+﻿<Window x:Class="StudyPart.DesktopClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:res="clr-namespace:StudyPart.DesktopClient.Properties"
+        Loaded="MainWindow_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="Файл">
+                <MenuItem Name="ImportButton" Header="Импорт резервной копии" Click="MenuButton_Click"/>
+                <MenuItem Name="ExportButton" Header="Экспорт резервной копии" Click="MenuButton_Click"/>
+                <MenuItem Name="ExitButton" Header="Выход" Click="MenuButton_Click"/>
+            </MenuItem>
+            <MenuItem Name="AboutButton" Header="О приложении"/>
+        </Menu>
+        <Grid Name="ContentPanel" Grid.Row="1">
+            <TabControl>
+                <TabItem Header="Группы" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ListView Name="GroupsLV">
+                            <ListView.View>
+                                <GridView x:Name="GroupsGridView">
+                                    <GridViewColumn Header="Отделение" DisplayMemberBinding="{Binding DepartmentOut}"/>
+                                    <GridViewColumn Header="Специальность" DisplayMemberBinding="{Binding SpecialtyOut}"/>
+                                    <GridViewColumn Header="Название группы" DisplayMemberBinding="{Binding GroupName}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Grid Name="GroupEditorGrid" Grid.Row="1">
+                            <TextBlock Text="Отделение" Grid.Column="0" Grid.Row="0"/>
+                            <TextBlock Text="Специальность" Grid.Column="1" Grid.Row="0"/>
+                            <TextBlock Text="Название группы" Grid.Column="2" Grid.Row="0"/>
+                            <ComboBox Name="GroupDepartmentCB" DisplayMemberPath="{Binding DepartmentName}" Grid.Column="0" Grid.Row="1" SelectionChanged="Input_Changed"/>
+                            <ComboBox Name="GroupSpecialtyCB" DisplayMemberPath="{Binding SpecialtyName}" Grid.Column="1" Grid.Row="1" SelectionChanged="Input_Changed"/>
+                            <TextBox Name="GroupNameTB" Grid.Column="2" Grid.Row="1" TextChanged="Input_Changed"/>
+                            <Button Name="AddGroupButton" Padding="5" Content="Добавить" Grid.Column="3" Grid.Row="0" Click="AddButton_Click"/>
+                            <Button Name="SetGroupButton" Padding="5" Content="Изменить" Grid.Column="4" Grid.Row="0" Click="SetButton_Click"/>
+                            <Button Name="RemoveGroupButton" Padding="5" Content="Удалить" Grid.Column="3" Grid.Row="1" Click="RemoveButton_Click"/>
+                            <Button Padding="5" Content="Обновить" Grid.Column="4" Grid.Row="1" Click="RefreshButton_Click"/>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Дисциплины">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ListView Name="SubjectsLV">
+                            <ListView.View>
+                                <GridView x:Name="SubjectsGridView">
+                                    <GridViewColumn Header="Название" DisplayMemberBinding="{Binding SubjectName}"/>
+                                    <GridViewColumn Header="Преподаватель" DisplayMemberBinding="{Binding TeacherOut}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Студенты">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ListView Name="StudentsLV">
+                            <ListView.View>
+                                <GridView x:Name="StudentsGridView">
+                                    <GridViewColumn Header="Группа" DisplayMemberBinding="{Binding GroupOut}"/>
+                                    <GridViewColumn Header="ФИО" DisplayMemberBinding="{Binding FullName}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Оценки">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ListView Name="MarksLV">
+                            <ListView.View>
+                                <GridView x:Name="MarksGridView">
+                                    <GridViewColumn Header="Студент" DisplayMemberBinding="{Binding StudentOut}"/>
+                                    <GridViewColumn Header="Дисциплина" DisplayMemberBinding="{Binding SubjectOut}"/>
+                                    <GridViewColumn Header="Дата сдачи теста" DisplayMemberBinding="{Binding TestDateOut}"/>
+                                    <GridViewColumn Header="Оценка" DisplayMemberBinding="{Binding MarkValue}"/>
+                                    <GridViewColumn Header="Семестр" DisplayMemberBinding="{Binding YearHalf}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Аккаунты">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ListView Name="AccountsLV">
+                            <ListView.View>
+                                <GridView x:Name="AccountsGridView">
+                                    <GridViewColumn Header="Студент" DisplayMemberBinding="{Binding StudentOut}"/>
+                                    <GridViewColumn Header="ФИО" DisplayMemberBinding="{Binding FullName}"/>
+                                    <GridViewColumn Header="Имя пользователя" DisplayMemberBinding="{Binding UserName}"/>
+                                    <GridViewColumn Header="Разрешения" DisplayMemberBinding="{Binding PermissionsOut}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Отделения">
+                    <ListView Name="DepartmentsLV" />
+                </TabItem>
+                <TabItem Header="Специальности">
+                    <ListView Name="SpecialtiesLV" DisplayMemberPath="{Binding SpecialtyName}"/>
+                </TabItem>
+                <TabItem Header="Преподаватели">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ListView Name="TeachersLV" DisplayMemberPath="{Binding ID}"/>
+                        <Grid Name="TeacherEditorGrid" Grid.Row="1">
+                            <TextBlock Text="Имя преподавателя" Grid.Column="0" Grid.Row="0"/>
+                            <TextBox Name="TeacherNameTB" Grid.Column="0" Grid.Row="1" TextChanged="Input_Changed"/>
+                            <Button Name="AddTeacherButton" Content="Добавить" Padding="5"  Grid.Column="1" Grid.Row="0" Click="AddButton_Click"/>
+                            <Button Name="SetTeacherButton" Content="Изменить" Padding="5" Grid.Column="2" Grid.Row="0" Click="SetButton_Click"/>
+                            <Button Name="RemoveTeacherButton" Content="Удалить" Padding="5" Grid.Column="1" Grid.Row="1" Click="RemoveButton_Click"/>
+                            <Button Content="Обновить" Padding="5" Grid.Column="2" Grid.Row="1"/>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+
+</Window>
