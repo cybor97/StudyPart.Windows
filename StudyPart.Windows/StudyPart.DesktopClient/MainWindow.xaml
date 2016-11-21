@@ -24,7 +24,7 @@
                             <RowDefinition/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <ListView Name="GroupsLV">
+                        <ListView Name="GroupsLV" SelectionChanged="LVSelection_Changed">
                             <ListView.View>
                                 <GridView x:Name="GroupsGridView">
                                     <GridViewColumn Header="Отделение" DisplayMemberBinding="{Binding DepartmentOut}"/>
@@ -53,7 +53,7 @@
                             <RowDefinition/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <ListView Name="SubjectsLV">
+                        <ListView Name="SubjectsLV" SelectionChanged="LVSelection_Changed">
                             <ListView.View>
                                 <GridView x:Name="SubjectsGridView">
                                     <GridViewColumn Header="Название" DisplayMemberBinding="{Binding SubjectName}"/>
@@ -69,7 +69,7 @@
                             <RowDefinition/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <ListView Name="StudentsLV">
+                        <ListView Name="StudentsLV" SelectionChanged="LVSelection_Changed">
                             <ListView.View>
                                 <GridView x:Name="StudentsGridView">
                                     <GridViewColumn Header="Группа" DisplayMemberBinding="{Binding GroupOut}"/>
@@ -85,7 +85,7 @@
                             <RowDefinition/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <ListView Name="MarksLV">
+                        <ListView Name="MarksLV" SelectionChanged="LVSelection_Changed">
                             <ListView.View>
                                 <GridView x:Name="MarksGridView">
                                     <GridViewColumn Header="Студент" DisplayMemberBinding="{Binding StudentOut}"/>
@@ -104,7 +104,7 @@
                             <RowDefinition/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <ListView Name="AccountsLV">
+                        <ListView Name="AccountsLV" SelectionChanged="LVSelection_Changed">
                             <ListView.View>
                                 <GridView x:Name="AccountsGridView">
                                     <GridViewColumn Header="Студент" DisplayMemberBinding="{Binding StudentOut}"/>
@@ -117,10 +117,37 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="Отделения">
-                    <ListView Name="DepartmentsLV" />
+                    <ListView Name="DepartmentsLV" SelectionChanged="LVSelection_Changed">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding DepartmentName}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
                 </TabItem>
                 <TabItem Header="Специальности">
-                    <ListView Name="SpecialtiesLV" DisplayMemberPath="{Binding SpecialtyName}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ListView Name="SpecialtiesLV" SelectionChanged="LVSelection_Changed">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding SpecialtyName}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Grid Name="SpecialtyEditorGrid" Grid.Row="1">
+                            <TextBlock Text="Название специальности" Grid.Column="0" Grid.Row="0"/>
+                            <TextBox Name="SpecialtyNameTB" Grid.Column="0" Grid.Row="1" TextChanged="Input_Changed"/>
+                            <Button Name="AddSpecialtyButton" Content="Добавить" Padding="5"  Grid.Column="1" Grid.Row="0" Click="AddButton_Click"/>
+                            <Button Name="SetSpecialtyButton" Content="Изменить" Padding="5" Grid.Column="2" Grid.Row="0" Click="SetButton_Click"/>
+                            <Button Name="RemoveSpecialtyButton" Content="Удалить" Padding="5" Grid.Column="1" Grid.Row="1" Click="RemoveButton_Click"/>
+                            <Button Content="Обновить" Padding="5" Grid.Column="2" Grid.Row="1" Click="RefreshButton_Click"/>
+                        </Grid>
+
+                    </Grid>
                 </TabItem>
                 <TabItem Header="Преподаватели">
                     <Grid>
@@ -128,14 +155,20 @@
                             <RowDefinition/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <ListView Name="TeachersLV" DisplayMemberPath="{Binding ID}"/>
+                        <ListView Name="TeachersLV" DisplayMemberPath="FullName" SelectionChanged="LVSelection_Changed">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn DisplayMemberBinding="{Binding FullName}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                         <Grid Name="TeacherEditorGrid" Grid.Row="1">
                             <TextBlock Text="Имя преподавателя" Grid.Column="0" Grid.Row="0"/>
                             <TextBox Name="TeacherNameTB" Grid.Column="0" Grid.Row="1" TextChanged="Input_Changed"/>
                             <Button Name="AddTeacherButton" Content="Добавить" Padding="5"  Grid.Column="1" Grid.Row="0" Click="AddButton_Click"/>
                             <Button Name="SetTeacherButton" Content="Изменить" Padding="5" Grid.Column="2" Grid.Row="0" Click="SetButton_Click"/>
                             <Button Name="RemoveTeacherButton" Content="Удалить" Padding="5" Grid.Column="1" Grid.Row="1" Click="RemoveButton_Click"/>
-                            <Button Content="Обновить" Padding="5" Grid.Column="2" Grid.Row="1"/>
+                            <Button Content="Обновить" Padding="5" Grid.Column="2" Grid.Row="1" Click="RefreshButton_Click"/>
                         </Grid>
                     </Grid>
                 </TabItem>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,10 +16,10 @@ namespace StudyPart.DesktopClient
 
         void MainWindow_Loaded(object sender, EventArgs e)
         {
-            AdjustListViewColumns(GroupsLV, SubjectsLV, StudentsLV, MarksLV, AccountsLV);
-            SetGridCells(GroupEditorGrid, 5, 2);
-            SetGridCells(TeacherEditorGrid, 3, 2);
-            SetButtons();
+            AdjustListViewColumns(GroupsLV, SubjectsLV, StudentsLV, MarksLV, AccountsLV, DepartmentsLV, SpecialtiesLV, TeachersLV);
+            SetGridCells(5, 2, GroupEditorGrid);
+            SetGridCells(3, 2, SpecialtyEditorGrid, TeacherEditorGrid);
+            UpdateDisplayData();
         }
 
         void MenuButton_Click(object sender, EventArgs e)
@@ -61,8 +60,15 @@ namespace StudyPart.DesktopClient
             switch (((Button)sender).Name)
             {
                 case nameof(SetGroupButton):
+                    Set((Group)GroupsLV.SelectedItem);
+                    break;
+                case nameof(SetSpecialtyButton):
+                    Set((Specialty)SpecialtiesLV.SelectedItem);
                     break;
                 case nameof(SetTeacherButton):
+                    Teacher teacher = (Teacher)TeachersLV.SelectedItem;
+                    teacher.FullName = TeacherNameTB.Text;
+                    Set(teacher);
                     break;
                 default:
                     break;
@@ -75,8 +81,13 @@ namespace StudyPart.DesktopClient
             switch (((Button)sender).Name)
             {
                 case nameof(RemoveGroupButton):
+                    Remove((Group)GroupsLV.SelectedItem);
+                    break;
+                case nameof(RemoveSpecialtyButton):
+                    Remove((Specialty)SpecialtiesLV.SelectedItem);
                     break;
                 case nameof(RemoveTeacherButton):
+                    Remove((Teacher)TeachersLV.SelectedItem);
                     break;
                 default:
                     break;
@@ -94,6 +105,23 @@ namespace StudyPart.DesktopClient
             SetButtons();
         }
 
+        private void LVSelection_Changed(object sender, SelectionChangedEventArgs e)
+        {
+            SetButtons();
+            ListView senderLV = ((ListView)sender);
+            if (senderLV.SelectedIndex > -1)
+                switch (senderLV.Name)
+                {
+                    case nameof(GroupsLV):
+                        break;
+                    case nameof(SpecialtiesLV):
+                        break;
+                    case nameof(TeachersLV):
+                        TeacherNameTB.Text = ((Teacher)TeachersLV.SelectedItem).FullName;
+                        break;
+                }
+        }
+
         void UpdateDisplayData()
         {
             FillLists(GroupsLV, GetGroups().ToArray(),
@@ -104,6 +132,9 @@ namespace StudyPart.DesktopClient
                 DepartmentsLV, GetDepartments().ToArray(),
                 SpecialtiesLV, GetSpecialties().ToArray(),
                 TeachersLV, GetTeachers().ToArray());
+            FillComboBoxes(GroupDepartmentCB, GetGroups().ToArray(),
+                GroupSpecialtyCB, GetSpecialties().ToArray());
+            SetButtons();
         }
 
         void FillLists(params object[] listViewsAndValues)
@@ -115,6 +146,19 @@ namespace StudyPart.DesktopClient
                 ListView currentListView = (ListView)listViewsAndValues[i];
                 currentListView.Items.Clear();
                 foreach (var current in ((Array)listViewsAndValues[i + 1]))
+                    currentListView.Items.Add(current);
+            }
+        }
+
+        void FillComboBoxes(params object[] comboBoxesAndValues)
+        {
+            if (comboBoxesAndValues.Length % 2 != 0)
+                throw new ArgumentException("Parameters should be like comboBox1, valueCollection1, comboBox2, valueCollection2...");
+            for (int i = 0; i < comboBoxesAndValues.Length; i += 2)
+            {
+                ComboBox currentListView = (ComboBox)comboBoxesAndValues[i];
+                currentListView.Items.Clear();
+                foreach (var current in ((Array)comboBoxesAndValues[i + 1]))
                     currentListView.Items.Add(current);
             }
         }
@@ -132,12 +176,15 @@ namespace StudyPart.DesktopClient
                     current.Width = ActualWidth / ((GridView)listView.View).Columns.Count;
         }
 
-        void SetGridCells(Grid grid, int columns, int rows)
+        void SetGridCells(int columns, int rows, params Grid[] grids)
         {
-            while (columns-- > 0)
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = columns < 2 ? GridLength.Auto : new GridLength(1, GridUnitType.Star) });
-            while (rows-- > 0)
-                grid.RowDefinitions.Add(new RowDefinition());
+            foreach (var grid in grids)
+            {
+                for (int i = 0; i < columns; i++)
+                    grid.ColumnDefinitions.Add(new ColumnDefinition { Width = i >= columns - 2 ? GridLength.Auto : new GridLength(1, GridUnitType.Star) });
+                for (int i = 0; i < rows; i++)
+                    grid.RowDefinitions.Add(new RowDefinition());
+            }
         }
 
         void SetButtons()
@@ -147,6 +194,12 @@ namespace StudyPart.DesktopClient
             AddGroupButton.IsEnabled = groupValidated;
             SetGroupButton.IsEnabled = groupValidated && groupSelected;
             RemoveGroupButton.IsEnabled = groupSelected;
+
+            bool specialtyValidated = Validate(typeof(Specialty));
+            bool specialtySelected = SpecialtiesLV.SelectedIndex > -1;
+            AddSpecialtyButton.IsEnabled = specialtyValidated;
+            SetSpecialtyButton.IsEnabled = specialtyValidated && specialtySelected;
+            RemoveSpecialtyButton.IsEnabled = specialtySelected;
 
             bool teacherValidated = Validate(typeof(Teacher));
             bool teacherSelected = TeachersLV.SelectedIndex > -1;
@@ -163,6 +216,8 @@ namespace StudyPart.DesktopClient
                     return GroupDepartmentCB.SelectedIndex > -1 &&
                         GroupSpecialtyCB.SelectedIndex > -1 &&
                         !string.IsNullOrWhiteSpace(GroupNameTB.Text);
+                case nameof(Specialty):
+                    return !string.IsNullOrWhiteSpace(SpecialtyNameTB.Text);
                 case nameof(Teacher):
                     return !string.IsNullOrWhiteSpace(TeacherNameTB.Text);
                 default:
